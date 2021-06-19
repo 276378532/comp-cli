@@ -1,0 +1,5 @@
+{
+    "input": "./packages/comp1/index.js",
+    "button": "./packages/comp2/index.js",
+    "index": "./packages/index.js"
+}

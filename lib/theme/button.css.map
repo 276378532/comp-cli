@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://sydq-ui/packages/comp2/main.vue?afac"],"names":[],"mappings":"AAAA,QAAQ,qBAAA,CAAsB,WAAA,CAAY,WAAA,CAAY,YAAA","file":"button.css","sourcesContent":[".sy-but{border:1px solid #333;color:green;width:100px;height:100px}"]}

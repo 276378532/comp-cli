@@ -7,8 +7,27 @@ const OptimizeCssnanoPlugin = require('@intervolga/optimize-cssnano-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const BundleAnalyzerPlugin= require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = merge(webpackConfig, {
+  entry: {
+    // 配置入口文件
+    main: path.resolve(__dirname, '../examples/main.js')
+  },
+  output: {
+    // 配置打包文件输出的目录
+    path: path.resolve(__dirname, '../dist'),
+    // 生成的 js 文件名称
+    filename: 'js/[name].[hash:8].js',
+    // 生成的 chunk 名称
+    chunkFilename: 'js/[name].[hash:8].js',
+    // 资源引用的路径
+    publicPath: '/'
+  },
   mode: 'production',
+  externals:{
+    // 'vue-router': 'VueRouter',
+    // 'highlight.js': 'hljs'
+  },
   devtool: '#source-map',
   optimization: {
     splitChunks: {
@@ -54,14 +73,51 @@ module.exports = merge(webpackConfig, {
           }
         ]
       },
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2
+            }
+          },
+          {
+            loader: 'less-loader',
+          },
+          {
+            loader: 'postcss-loader'
+          }
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: 'css-loader',
+            options:{
+              modules: false
+            }
+          }
+        ]
+      },
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: 'production'
-      }
+     new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, '../public/index.html')
     }),
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     NODE_ENV: 'production'
+    //   }
+    // }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].css'
